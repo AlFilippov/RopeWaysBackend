@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: rope-ways-api
+
+weather:
+  yandexWeatherUrl: "https://api.weather.yandex.ru/v2"
+  weatherApiKey: "your key"
+  weatherIconTemplate: "https://yastatic.net/weather/i/icons/funky/dark/%s.svg"

@@ -1,0 +1,61 @@
+buildscript {
+    ext {
+        kotlinVersion = '1.6.0'
+        springBootVersion = '2.7.1'
+    }
+
+    repositories {
+        mavenCentral()
+        google()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-allopen:${kotlinVersion}"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    }
+}
+
+ext {
+    javaProjects = [project(':RopeWaysAPI')]
+}
+
+configure(javaProjects) {
+    apply plugin: 'java'
+    apply plugin: 'kotlin'
+    apply plugin: 'kotlin-spring'
+    apply plugin: 'io.spring.dependency-management'
+
+    sourceCompatibility = 15
+    targetCompatibility = 15
+    ext {
+        springCloudVersion = '2021.0.3'
+    }
+
+    dependencyManagement {
+        dependencies {
+            imports {
+                mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
+            }
+
+            /* kotlin */
+            dependency "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+            dependency "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+            /* логирование в kotlin https://github.com/MicroUtils/kotlin-logging */
+            dependency 'io.github.microutils:kotlin-logging:2.0.4'
+            dependency 'com.fasterxml.jackson.module:jackson-module-kotlin:2.13.3'
+            dependency "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+        }
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
+
+wrapper {
+    gradleVersion = '7.5'
+    distributionUrl = "https://services.gradle.org/distributions/gradle-${gradleVersion}-bin.zip"
+}
